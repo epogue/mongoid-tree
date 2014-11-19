@@ -85,9 +85,12 @@ module Mongoid
     autoload :Traversal, 'mongoid/tree/traversal'
 
     included do
-      has_many :children, :class_name => self.name, :foreign_key => :parent_id, :inverse_of => :parent, :validate => false
+      has_many :children, :class_name => self.name, :foreign_key => :parent_id, :inverse_of => :safe_parent, :validate => false
 
-      belongs_to :parent, :class_name => self.name, :inverse_of => :children, :index => true, :validate => false
+      belongs_to :safe_parent, foreign_key: :parent_id, :class_name => self.name, :inverse_of => :children, :index => true, :validate => false
+
+      alias_method :parent, :safe_parent
+      alias_method :parent=, :safe_parent=
 
       field :parent_ids, :type => Array, :default => []
       index :parent_ids => 1

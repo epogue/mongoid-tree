@@ -14,7 +14,7 @@ describe Mongoid::Tree do
   end
 
   it "should be referenced in one parent as inverse of children" do
-    a = Node.reflect_on_association(:parent)
+    a = Node.reflect_on_association(:safe_parent)
     expect(a).to be
     expect(a.macro).to eq(:belongs_to)
     expect(a.class_name).to eq('Node')
