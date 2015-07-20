@@ -35,8 +35,6 @@ module Mongoid
       included do
         field :position, :type => Integer
 
-        default_scope ->{ asc(:position) }
-
         before_save :assign_default_position, :if => :assign_default_position?
         before_save :reposition_former_siblings, :if => :sibling_reposition_required?
         after_destroy :move_lower_siblings_up
